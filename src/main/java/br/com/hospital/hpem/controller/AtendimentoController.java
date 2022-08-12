@@ -99,7 +99,7 @@ public class AtendimentoController {
             return ResponseEntity.status(HttpStatus.OK).body("Paciente removido com successo!");
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não existe!");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não existe! Favor verificar");
 
     }
 }
