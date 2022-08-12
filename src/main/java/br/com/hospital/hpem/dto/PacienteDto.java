@@ -1,12 +1,17 @@
 package br.com.hospital.hpem.dto;
 import br.com.hospital.hpem.models.Paciente;
+
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.stream.Collectors;
 public class PacienteDto {
-
+    @NotBlank
     private String nome;
+    @NotBlank
     private String cpf;
+    @NotBlank
     private int idade;
+    @NotBlank
     private String endereco;
     public PacienteDto(Paciente paciente) {
         this.nome = paciente.getNome();

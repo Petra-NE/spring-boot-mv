@@ -3,6 +3,8 @@ package br.com.hospital.hpem.service;
 import br.com.hospital.hpem.models.Paciente;
 import br.com.hospital.hpem.respositories.MedicoRepository;
 import br.com.hospital.hpem.respositories.PacienteRepository;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,20 +33,13 @@ public class PacienteService {
 
 
     }
+
+
     @Transactional
     public Object save(Paciente paciente) {
         return pacienteRepository.save(paciente);
-
-
-    }
-
-    public Optional<Paciente> getPacienteById(Long id) {
-        return pacienteRepository.findById(id);
     }
 
 
-    public Optional<Paciente> getPaciente(String nome) {
-        return pacienteRepository.findByNome(nome);
-    }
 }
 
