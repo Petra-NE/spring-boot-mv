@@ -6,15 +6,15 @@ public class Paciente {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (nullable = false, unique = true)
+    @Column (nullable = false)
     private String nome;
     @Column (nullable = false, unique = true, length = 11)
     private String cpf;
-    @Column (nullable = false, unique = true, length = 120)
+    @Column (nullable = false, length = 120)
     private int idade;
     @Column (nullable = false)
     private String endereco;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Medico medico;
 
     public Paciente() {

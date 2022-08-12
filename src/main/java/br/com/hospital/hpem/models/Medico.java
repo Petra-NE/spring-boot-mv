@@ -6,9 +6,9 @@ public class Medico {
 
     @Id
     private Long crm;
-    @Column (nullable = false, unique = true)
+    @Column (nullable = false)
     private String nome;
-    @Column (nullable = false, unique = true)
+    @Column (nullable = false)
     private String especialidade;
 
 
@@ -28,8 +28,8 @@ public class Medico {
         return nome;
     }
 
-    public void setNome(String nomeMedico) {
-        this.nome = nomeMedico;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEspecialidade() {
