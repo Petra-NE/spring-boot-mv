@@ -1,5 +1,6 @@
 package br.com.hospital.hpem.dto;
 import br.com.hospital.hpem.models.Paciente;
+import org.springframework.data.domain.Page;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -25,8 +26,8 @@ public class PacienteDto {
     }
 
 
-    public static List<PacienteDto> converter(List<Paciente> asList) {
-        return asList.stream().map(PacienteDto::new).collect(Collectors.toList());
+    public static Page<PacienteDto> converter(Page<Paciente> asList) {
+        return (Page<PacienteDto>) asList.stream().map(PacienteDto::new).collect(Collectors.toList());
     }
 
     public String getNome() {

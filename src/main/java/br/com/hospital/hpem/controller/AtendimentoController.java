@@ -5,6 +5,9 @@ import br.com.hospital.hpem.models.Paciente;
 import br.com.hospital.hpem.service.MedicoService;
 import br.com.hospital.hpem.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,15 +31,17 @@ public class AtendimentoController {
 
 
     @GetMapping("/pacientes")
-    public List<PacienteDto> lista() {
+    @Cacheable(value = "listaPacientes")
+    public Page<PacienteDto> lista() {
 
-        List<Paciente> pacienteList = new ArrayList<>();
-        pacienteList = pacienteService.getPacientes();
+        Page<Paciente> pacienteList;
+        pacienteList = (Page<Paciente>) pacienteService.getPacientes();
         return PacienteDto.converter(pacienteList);
     }
 
 
     @GetMapping("/medicos")
+    @Cacheable(value = "listaMedicos")
     public List<Medico> listaMedicos() {
 
         List<Medico> medicosList = new ArrayList<>();
@@ -57,6 +62,7 @@ public class AtendimentoController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @CacheEvict(value = "listaPacientes", allEntries = true)
     public ResponseEntity<Object> removerPaciente(@PathVariable Long id) {
         Optional<Paciente> pacienteOptional = pacienteService.findById(id);
         if (pacienteOptional.isPresent()) {
