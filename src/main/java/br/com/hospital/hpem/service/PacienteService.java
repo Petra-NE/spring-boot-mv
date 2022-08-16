@@ -27,19 +27,18 @@ public class PacienteService {
         return pacienteRepository.findById(id);
     }
 
-
+    @Transactional
     public void deletePaciente(Long id) {
         pacienteRepository.deleteById(id);
 
 
     }
 
-
     @Transactional
     public Object save(Paciente paciente) {
+
         return pacienteRepository.save(paciente);
     }
 
 
 }
-

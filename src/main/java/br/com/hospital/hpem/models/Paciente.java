@@ -10,18 +10,13 @@ public class Paciente {
     private String nome;
     @Column (nullable = false, unique = true, length = 11)
     private String cpf;
-    @Column (nullable = false, length = 120)
+    @Column (nullable = false)
     private int idade;
     @Column (nullable = false)
     private String endereco;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Medico medico;
+
 
     public Paciente() {
-    }
-
-    //CONSTRUTOR VAZIO:
-    public Paciente(String nome, String cpf, int idade, Medico medico) {
     }
 
     public Paciente(String nome, String cpf, int idade, String endereco) {
@@ -29,7 +24,6 @@ public class Paciente {
         this.cpf = cpf;
         this.idade = idade;
         this.endereco = endereco;
-//        this.medico = medico;
     }
 
     public Long getId() {
@@ -72,11 +66,11 @@ public class Paciente {
         this.endereco = endereco;
     }
 
-    public Medico getMedico() {
-        return medico;
-    }
+   // public Atendimento getAtendimento() {
+     //   return atendimento;
+    //}
 
-    public void setMedico(Medico medico) {
-        this.medico = medico;
-    }
+  //  public void setAtendimento(Atendimento atendimento) {
+     //   this.atendimento = atendimento;
+    //}
 }

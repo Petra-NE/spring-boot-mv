@@ -1,9 +1,13 @@
 package br.com.hospital.hpem.controller;
 import br.com.hospital.hpem.dto.PacienteDto;
+import br.com.hospital.hpem.form.PacienteForm;
+import br.com.hospital.hpem.models.Atendimento;
 import br.com.hospital.hpem.models.Medico;
 import br.com.hospital.hpem.models.Paciente;
+import br.com.hospital.hpem.service.AtendimentoService;
 import br.com.hospital.hpem.service.MedicoService;
 import br.com.hospital.hpem.service.PacienteService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,58 +23,45 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @RestController
 @RequestMapping("/api/v1/atendimento")
 public class AtendimentoController {
 
     @Autowired
-    PacienteService pacienteService;
-
-    @Autowired
-    MedicoService medicoService;
+    AtendimentoService atendimentoService;
 
 
-    @GetMapping("/pacientes")
-    @Cacheable(value = "listaPacientes")
-    public Page<PacienteDto> lista() {
+    @GetMapping("/atendimento")
+    @Cacheable(value = "listaAtendimentos")
+    public List<Atendimento> listaAtendimentos() {
 
-        Page<Paciente> pacienteList;
-        pacienteList = (Page<Paciente>) pacienteService.getPacientes();
-        return PacienteDto.converter(pacienteList);
-    }
-
-
-    @GetMapping("/medicos")
-    @Cacheable(value = "listaMedicos")
-    public List<Medico> listaMedicos() {
-
-        List<Medico> medicosList = new ArrayList<>();
-        medicosList = medicoService.getMedico();
-        return medicosList;
+        List<Atendimento> atendimentoList = new ArrayList<>();
+        atendimentoList = atendimentoService.getAtendimento();
+        return atendimentoList;
 
     }
 
-    @PostMapping ("/post")
-    @Transactional
-    public ResponseEntity<Object> salvarCadastro (@RequestBody @Valid Paciente paciente) {
+    @PostMapping ("/post/atendimento")
+    public ResponseEntity<Object> salvarCadastroAtendimento (@RequestBody @Valid Atendimento atendimento) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(pacienteService.save(paciente));
+        return ResponseEntity.status(HttpStatus.CREATED).body(atendimentoService.save(atendimento));
 
     }
 
-
-
-    @DeleteMapping("/{id}")
-    @Transactional
-    @CacheEvict(value = "listaPacientes", allEntries = true)
-    public ResponseEntity<Object> removerPaciente(@PathVariable Long id) {
-        Optional<Paciente> pacienteOptional = pacienteService.findById(id);
-        if (pacienteOptional.isPresent()) {
-            pacienteService.deletePaciente(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Paciente removido com successo!");
+    @DeleteMapping("/delete/atendimento/{id}")
+    @CacheEvict(value = "listaAtendimento", allEntries = true)
+    public ResponseEntity<Object> removeratendimento(@PathVariable Long id) {
+        Optional<Atendimento> atendimentoOptional = atendimentoService.findById(id);
+        if (atendimentoOptional.isPresent()) {
+            atendimentoService.deleteAtendimento(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Atendimento removido com successo!");
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Paciente não existe!");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Atendimento não existe!");
 
     }
+
 }
+
